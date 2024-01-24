@@ -54,9 +54,9 @@
         await this.productsService.updateProduct(prodId, prodTitle, prodDesc, prodPrice);
         }
     
-        @Delete(':id')
-        removeProduct(@Param('id') prodId: string) {
-            this.productsService.deleteProduct(prodId);
+        @Delete('/delete/:id')
+        async removeProduct(@Param('id') prodId: string) {
+            await this.productsService.deleteProduct(prodId);
             return null;
         }
     }
