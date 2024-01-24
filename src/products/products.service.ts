@@ -22,12 +22,12 @@ import { InjectModel } from '@nestjs/mongoose';
         });
         const result = await newProduct.save();
         return result;
-        console.log(result);
         
     }
 
-    getProducts() {
-        return [...this.products];
+    async getProducts() {
+        const products = await this.productModel.find().exec();
+        return products as Product[] ;
     }
 
     getSingleProduct(productId: string) {

@@ -15,12 +15,12 @@
         constructor(private readonly productsService: ProductsService) {}
     
         @Post()
-        addProduct(
+        async addProduct(
             @Body('title') prodTitle: string,        //data that you will post it 
             @Body('description') prodDesc: string,
             @Body('price') prodPrice: number,
         ) {
-        const newProduct = this.productsService.insertProduct(
+        const newProduct = await this.productsService.insertProduct(
             prodTitle,
             prodDesc,
             prodPrice,
@@ -29,8 +29,14 @@
         }
     
         @Get()
-        getAllProducts() {
-        return this.productsService.getProducts();
+        async getAllProducts() {
+            const products = await this.productsService.getProducts();
+            return products.map(prod => ({
+                id : prod.id,
+                title: prod.title,
+                description: prod.description,
+                price: prod.price,
+            }));
         }
     
         @Get(':id')
