@@ -52,7 +52,12 @@ import { InjectModel } from '@nestjs/mongoose';
     }
 
     async deleteProduct(prodId: string) {
-        await this.productModel.deleteOne({_id: prodId}).exec();
+        const result = await this.productModel.deleteOne({_id: prodId}).exec();
+        if (result.deletedCount === 0 ) {
+            throw new NotFoundException('Could not find product.');
+        }
+        // console.log(result);
+        
     }
 
     private async findProduct(id: string): Promise<Product> {
